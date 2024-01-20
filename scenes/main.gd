@@ -11,8 +11,9 @@ var obstacle_coords = []
 @export_range(-9, 0) var start_position_y = 0
 @export_range(0, 9) var finish_position_x = 9
 @export_range(-9, 0) var finish_position_y = -9
-@export_range(5, 20, 1.5) var percentage_obstacles: float = 10
+@export_range(0, 25, 0.5) var percentage_obstacles: float = 10
 
+var empty_cube = Vector2i(0,0)
 var obstacle_cube = Vector2i(1,0)
 var path_cube = Vector2i(2,0)
 var start_cube = Vector2i(3,0)
@@ -51,12 +52,12 @@ func create_obstacles():
 
 		if grid[randomX][randomY] == 0:
 			grid[randomX][randomY] = -3
-			tilemap.set_cell(1, Vector2i(randomX - 1, randomY - 1), 0, obstacle_cube)
-			obstacle_coords.append(Vector2i(randomX - 1, randomY - 1))
+			tilemap.set_cell(0, Vector2i(randomX, randomY), 0, obstacle_cube)
+			obstacle_coords.append(Vector2i(randomX, randomY))
 			obstaclesPlaced += 1
 
 func clear_grid():
 	for coord in obstacle_coords:
-		grid[coord.x + 1][coord.y + 1] = 0
-		tilemap.set_cell(1, coord, -1)
+		grid[coord.x][coord.y] = 0
+		tilemap.set_cell(0, coord, 0, empty_cube)
 	obstacle_coords.clear()

@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://ddshxn7jla8lo"]
+[gd_scene load_steps=12 format=3 uid="uid://ddshxn7jla8lo"]
 
 [ext_resource type="Texture2D" uid="uid://pux2nnjdchwf" path="res://assets/tileset.png" id="1_6ojrb"]
+[ext_resource type="FontFile" uid="uid://ho7w3ueb5kb6" path="res://assets/m5x7.ttf" id="2_pc42s"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4kste"]
 texture = ExtResource("1_6ojrb")
@@ -35,6 +36,33 @@ custom_data_layer_2/name = "finish"
 custom_data_layer_2/type = 1
 sources/0 = SubResource("TileSetAtlasSource_4kste")
 
+[sub_resource type="Theme" id="Theme_rmbfq"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_og2uy"]
+font = ExtResource("2_pc42s")
+
+[sub_resource type="LabelSettings" id="LabelSettings_s0btu"]
+line_spacing = 0.0
+font = ExtResource("2_pc42s")
+shadow_size = 0
+
+[sub_resource type="Theme" id="Theme_2x8ml"]
+default_font = ExtResource("2_pc42s")
+default_font_size = 0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_axn54"]
+bg_color = Color(0.360784, 0.341176, 0.4, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+corner_detail = 9
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3561p"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_385mf"]
+font = ExtResource("2_pc42s")
+
 [node name="main" type="Node2D"]
 
 [node name="TileMap" type="TileMap" parent="."]
@@ -44,13 +72,102 @@ tile_set = SubResource("TileSet_8sr3s")
 format = 2
 layer_0/name = "Ground"
 layer_0/y_sort_enabled = true
-layer_0/tile_data = PackedInt32Array(-393216, 0, 0, -327680, 0, 0, -262144, 0, 0, -196608, 0, 0, -131072, 0, 0, -65536, 0, 0, 0, 262144, 0, 65536, 0, 0, 131072, 0, 0, 196608, 0, 0, -393215, 0, 0, -327679, 0, 0, -262143, 0, 0, -196607, 0, 0, -131071, 0, 0, -65535, 0, 0, 1, 0, 0, 65537, 0, 0, 131073, 0, 0, 196609, 0, 0, -393214, 0, 0, -327678, 0, 0, -262142, 0, 0, -196606, 0, 0, -131070, 0, 0, -65534, 0, 0, 2, 0, 0, 65538, 0, 0, 131074, 0, 0, 196610, 0, 0, -393213, 0, 0, -327677, 0, 0, -262141, 0, 0, -196605, 0, 0, -131069, 0, 0, -65533, 0, 0, 3, 0, 0, 65539, 0, 0, 131075, 0, 0, 196611, 0, 0, -393212, 0, 0, -327676, 0, 0, -262140, 0, 0, -196604, 0, 0, -131068, 0, 0, -65532, 0, 0, 4, 0, 0, 65540, 0, 0, 131076, 0, 0, 196612, 0, 0, -393211, 0, 0, -327675, 0, 0, -262139, 0, 0, -196603, 0, 0, -131067, 0, 0, -65531, 0, 0, 5, 0, 0, 65541, 0, 0, 131077, 0, 0, 196613, 0, 0, -393210, 196608, 0, -327674, 0, 0, -262138, 0, 0, -196602, 0, 0, -131066, 0, 0, -65530, 0, 0, 6, 0, 0, 65542, 0, 0, 131078, 0, 0, 196614, 0, 0, -393209, 0, 0, -327673, 0, 0, -262137, 0, 0, -196601, 0, 0, -131065, 0, 0, -65529, 0, 0, 7, 0, 0, 65543, 0, 0, 131079, 0, 0, 196615, 0, 0, -393208, 0, 0, -327672, 0, 0, -262136, 0, 0, -196600, 0, 0, -131064, 0, 0, -65528, 0, 0, 8, 0, 0, 65544, 0, 0, 131080, 0, 0, 196616, 0, 0, -393207, 0, 0, -327671, 0, 0, -262135, 0, 0, -196599, 0, 0, -131063, 0, 0, -65527, 0, 0, 9, 0, 0, 65545, 0, 0, 131081, 0, 0, 196617, 0, 0)
+layer_0/tile_data = PackedInt32Array(-393216, 0, 0, -327680, 0, 0, -262144, 0, 0, -196608, 0, 0, -131072, 0, 0, -65536, 0, 0, 0, 0, 0, 65536, 0, 0, 131072, 0, 0, 196608, 196608, 0, -393215, 0, 0, -327679, 0, 0, -262143, 0, 0, -196607, 0, 0, -131071, 0, 0, -65535, 0, 0, 1, 0, 0, 65537, 0, 0, 131073, 0, 0, 196609, 0, 0, -393214, 0, 0, -327678, 0, 0, -262142, 0, 0, -196606, 0, 0, -131070, 0, 0, -65534, 0, 0, 2, 0, 0, 65538, 0, 0, 131074, 0, 0, 196610, 0, 0, -393213, 0, 0, -327677, 0, 0, -262141, 0, 0, -196605, 0, 0, -131069, 0, 0, -65533, 0, 0, 3, 0, 0, 65539, 0, 0, 131075, 0, 0, 196611, 0, 0, -393212, 0, 0, -327676, 0, 0, -262140, 0, 0, -196604, 0, 0, -131068, 0, 0, -65532, 0, 0, 4, 0, 0, 65540, 0, 0, 131076, 0, 0, 196612, 0, 0, -393211, 0, 0, -327675, 0, 0, -262139, 0, 0, -196603, 0, 0, -131067, 0, 0, -65531, 0, 0, 5, 0, 0, 65541, 0, 0, 131077, 0, 0, 196613, 0, 0, -393210, 0, 0, -327674, 0, 0, -262138, 0, 0, -196602, 0, 0, -131066, 0, 0, -65530, 0, 0, 6, 0, 0, 65542, 0, 0, 131078, 0, 0, 196614, 0, 0, -393209, 0, 0, -327673, 0, 0, -262137, 0, 0, -196601, 0, 0, -131065, 0, 0, -65529, 0, 0, 7, 0, 0, 65543, 0, 0, 131079, 0, 0, 196615, 0, 0, -393208, 0, 0, -327672, 0, 0, -262136, 0, 0, -196600, 0, 0, -131064, 0, 0, -65528, 0, 0, 8, 0, 0, 65544, 0, 0, 131080, 0, 0, 196616, 0, 0, -393207, 262144, 0, -327671, 0, 0, -262135, 0, 0, -196599, 0, 0, -131063, 0, 0, -65527, 0, 0, 9, 0, 0, 65545, 0, 0, 131081, 0, 0, 196617, 0, 0)
 layer_1/name = "1"
 layer_1/y_sort_enabled = true
 layer_1/y_sort_origin = 1
 layer_1/z_index = 1
 layer_1/tile_data = PackedInt32Array()
 
+[node name="Legend" type="GridContainer" parent="."]
+anchors_preset = -1
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 345.0
+offset_top = 6.0
+offset_right = 402.0
+offset_bottom = 70.0
+grow_horizontal = 0
+grow_vertical = 2
+scale = Vector2(0.6, 0.6)
+size_flags_horizontal = 4
+size_flags_vertical = 4
+columns = 2
+
+[node name="ColorRect" type="ColorRect" parent="Legend"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme = SubResource("Theme_rmbfq")
+color = Color(0.45098, 0.901961, 0.901961, 1)
+
+[node name="Label" type="Label" parent="Legend"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Start"
+label_settings = SubResource("LabelSettings_og2uy")
+
+[node name="ColorRect2" type="ColorRect" parent="Legend"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+color = Color(1, 0.862745, 0.45098, 1)
+
+[node name="Label2" type="Label" parent="Legend"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Finish"
+label_settings = SubResource("LabelSettings_s0btu")
+
+[node name="ColorRect3" type="ColorRect" parent="Legend"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+color = Color(0.54902, 0.87451, 0.423529, 1)
+
+[node name="Label3" type="Label" parent="Legend"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Path"
+label_settings = SubResource("LabelSettings_s0btu")
+
+[node name="ColorRect4" type="ColorRect" parent="Legend"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+color = Color(1, 0.580392, 0.65098, 1)
+
+[node name="Label4" type="Label" parent="Legend"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Obstacle"
+label_settings = SubResource("LabelSettings_s0btu")
+
+[node name="Start" type="Button" parent="."]
+offset_left = 343.0
+offset_top = 191.0
+offset_right = 378.0
+offset_bottom = 212.0
+theme = SubResource("Theme_2x8ml")
+theme_override_styles/normal = SubResource("StyleBoxFlat_axn54")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_3561p")
+text = "Start"
+
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(192, 108)
 zoom = Vector2(3, 3)
+
+[node name="Label" type="Label" parent="."]
+visible = false
+offset_left = 2.0
+offset_top = 2.0
+offset_right = 137.0
+offset_bottom = 25.0
+text = "Godot Grassfire Simulator"
+label_settings = SubResource("LabelSettings_385mf")

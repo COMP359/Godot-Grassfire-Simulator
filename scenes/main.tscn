@@ -62,8 +62,11 @@ font = ExtResource("2_pc42s")
 
 [node name="main" type="Node2D"]
 script = ExtResource("1_joo28")
-start_position_x = 5
+start_position_x = 3
+start_position_y = -4
 finish_position_x = 1
+finish_position_y = -5
+percentage_obstacles = 14.0
 
 [node name="tilemap" type="TileMap" parent="."]
 y_sort_enabled = true

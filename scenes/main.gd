@@ -91,38 +91,20 @@ func grassfire_search_algo():
 	var totalNodes = grid_width * grid_height
 	var nodesProcessed = 0
 
+	var directions = [Vector2i(1, 0), Vector2i(0, -1), Vector2i(0, 1), Vector2i(-1, 0)]
+
 	while grassfire_search.size() > 0:
 		var current_node = grassfire_search.pop_front()
 		var next_current_value = grid[current_node.x][current_node.y] + 1
-	
-		# DOWN TO RIGHT
-		if is_valid(current_node.x + 1, current_node.y):
-			grid[current_node.x + 1][current_node.y] = next_current_value
-			grassfire_search.push_back(Vector2i(current_node.x + 1, current_node.y))
-			tilemap.set_cell(0, Vector2i(current_node.x + 1, current_node.y), 0, search_cube)
-			add_to_set(Vector2i(current_node.x + 1, current_node.y))
-	
-		#UP TO RIGHT
-		if is_valid(current_node.x, current_node.y - 1):
-			grid[current_node.x][current_node.y - 1] = next_current_value
-			grassfire_search.push_back(Vector2i(current_node.x, current_node.y - 1))
-			tilemap.set_cell(0, Vector2i(current_node.x, current_node.y - 1), 0, search_cube)
-			add_to_set(Vector2i(current_node.x, current_node.y - 1))
-	
-		#DOWN TO LEFT
-		if is_valid(current_node.x, current_node.y + 1):
-			grid[current_node.x][current_node.y + 1] = next_current_value
-			grassfire_search.push_back(Vector2i(current_node.x, current_node.y + 1))
-			tilemap.set_cell(0, Vector2i(current_node.x, current_node.y + 1), 0, search_cube)
-			add_to_set(Vector2i(current_node.x, current_node.y + 1))
-	
-		#UP TO LEFT
-		if is_valid(current_node.x - 1, current_node.y):
-			grid[current_node.x - 1][current_node.y] = next_current_value
-			grassfire_search.push_back(Vector2i(current_node.x - 1, current_node.y))
-			tilemap.set_cell(0, Vector2i(current_node.x - 1, current_node.y), 0, search_cube)
-			add_to_set(Vector2i(current_node.x - 1, current_node.y))
-	
+
+		for direction in directions:
+			var new_node = current_node + direction
+			if is_valid(new_node.x, new_node.y):
+				grid[new_node.x][new_node.y] = next_current_value
+				grassfire_search.push_back(new_node)
+				tilemap.set_cell(0, new_node, 0, search_cube)
+				add_to_set(new_node)
+
 		await get_tree().create_timer(0.04).timeout
 		search_sound.play()
 		label.text = "Nodes Processed: " + str(searched_nodes.size()) + "/" + str(totalNodes)

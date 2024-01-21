@@ -1,8 +1,10 @@
-[gd_scene load_steps=13 format=3 uid="uid://ddshxn7jla8lo"]
+[gd_scene load_steps=15 format=3 uid="uid://ddshxn7jla8lo"]
 
 [ext_resource type="Texture2D" uid="uid://pux2nnjdchwf" path="res://assets/tileset.png" id="1_6ojrb"]
 [ext_resource type="Script" path="res://scenes/main.gd" id="1_joo28"]
 [ext_resource type="FontFile" uid="uid://ho7w3ueb5kb6" path="res://assets/m5x7.ttf" id="2_pc42s"]
+[ext_resource type="AudioStream" uid="uid://7otpnu8r48g0" path="res://assets/obstacle_sound.mp3" id="4_yry4k"]
+[ext_resource type="AudioStream" uid="uid://vxdd0fqxqxap" path="res://assets/search_sound.mp3" id="5_xa0j6"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4kste"]
 texture = ExtResource("1_6ojrb")
@@ -21,6 +23,8 @@ texture_region_size = Vector2i(32, 32)
 3:1/0 = 0
 4:0/0 = 0
 4:0/0/texture_origin = Vector2i(0, -8)
+5:0/0 = 0
+5:0/0/texture_origin = Vector2i(0, -8)
 
 [sub_resource type="TileSet" id="TileSet_8sr3s"]
 tile_shape = 1
@@ -58,13 +62,13 @@ font = ExtResource("2_pc42s")
 
 [node name="main" type="Node2D"]
 script = ExtResource("1_joo28")
-start_position_x = 2
-start_position_y = -2
-finish_position_x = 7
-finish_position_y = -4
-percentage_obstacles = 21.5
+start_position_x = 3
+start_position_y = -4
+finish_position_x = 1
+finish_position_y = -5
+percentage_obstacles = 14.0
 
-[node name="grid" type="TileMap" parent="."]
+[node name="tilemap" type="TileMap" parent="."]
 y_sort_enabled = true
 position = Vector2(32, 108)
 tile_set = SubResource("TileSet_8sr3s")
@@ -84,10 +88,10 @@ anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-offset_left = 345.0
-offset_top = 6.0
+offset_left = 342.0
+offset_top = 8.0
 offset_right = 402.0
-offset_bottom = 70.0
+offset_bottom = 89.0
 grow_horizontal = 0
 grow_vertical = 2
 scale = Vector2(0.6, 0.6)
@@ -148,6 +152,19 @@ size_flags_horizontal = 4
 text = "Obstacle"
 label_settings = SubResource("LabelSettings_s0btu")
 
+[node name="ColorRect5" type="ColorRect" parent="legend"]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+color = Color(0.94902, 0.623529, 0.976471, 1)
+
+[node name="Label5" type="Label" parent="legend"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Searched"
+label_settings = SubResource("LabelSettings_s0btu")
+
 [node name="start" type="Button" parent="."]
 offset_left = 343.0
 offset_top = 191.0
@@ -159,16 +176,20 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_3561p")
 text = "Start"
 
 [node name="label" type="Label" parent="."]
-visible = false
-offset_left = 2.0
-offset_top = 2.0
-offset_right = 137.0
-offset_bottom = 25.0
-text = "Godot Grassfire Simulator"
+offset_left = 5.0
+offset_top = 200.0
+offset_right = 140.0
+offset_bottom = 223.0
 label_settings = SubResource("LabelSettings_385mf")
 
 [node name="camera" type="Camera2D" parent="."]
 position = Vector2(192, 108)
 zoom = Vector2(3, 3)
+
+[node name="obstacle_sound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_yry4k")
+
+[node name="search_sound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_xa0j6")
 
 [connection signal="pressed" from="start" to="." method="_on_start_pressed"]

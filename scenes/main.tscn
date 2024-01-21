@@ -58,13 +58,8 @@ font = ExtResource("2_pc42s")
 
 [node name="main" type="Node2D"]
 script = ExtResource("1_joo28")
-start_position_x = 2
-start_position_y = -2
-finish_position_x = 7
-finish_position_y = -4
-percentage_obstacles = 21.5
 
-[node name="grid" type="TileMap" parent="."]
+[node name="tilemap" type="TileMap" parent="."]
 y_sort_enabled = true
 position = Vector2(32, 108)
 tile_set = SubResource("TileSet_8sr3s")

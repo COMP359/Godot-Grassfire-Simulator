@@ -1,19 +1,13 @@
 extends GutTest
-
-func before_all():
-	gut.p("Runs once before all tests")
-
+const Main = preload("res://scenes/main.gd")
+var _main = null;
+	
 func before_each():
-	gut.p("Runs before each test.")
+	_main = Main.new();
 
 func after_each():
-	gut.p("Runs after each test.")
+	_main.free();
 
-func after_all():
-	gut.p("Runs once after all tests")
-
-func test_assert_eq_number_not_equal():
-	assert_eq(1, 1, "Should fail.  1 != 2")
-
-func test_assert_eq_number_equal():
-	assert_eq('asdf', 'asdf', "Should pass")
+func test_check_valid_grid_dimension():
+	assert_eq(_main.grid_height, 10);
+	assert_eq(_main.grid_width, 10);

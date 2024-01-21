@@ -1,6 +1,6 @@
 extends Node2D
 
-@onready var tilemap = $grid
+@onready var tilemap = $tilemap
 
 var grid = []
 var grid_width = 10

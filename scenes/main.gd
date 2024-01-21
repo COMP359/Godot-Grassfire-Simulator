@@ -1,6 +1,7 @@
 extends Node2D
 
 @onready var tilemap = $tilemap
+@onready var obstacle_sound = $obstacle_sound
 
 var grid = []
 var grid_width = 10
@@ -54,6 +55,8 @@ func create_obstacles():
 			grid[randomX][randomY] = -3
 			tilemap.set_cell(0, Vector2i(randomX, randomY), 0, obstacle_cube)
 			obstacle_coords.append(Vector2i(randomX, randomY))
+			await get_tree().create_timer(0.05).timeout
+			obstacle_sound.play()
 			obstaclesPlaced += 1
 
 func clear_grid():

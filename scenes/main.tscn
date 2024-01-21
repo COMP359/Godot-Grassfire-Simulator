@@ -1,8 +1,9 @@
-[gd_scene load_steps=13 format=3 uid="uid://ddshxn7jla8lo"]
+[gd_scene load_steps=14 format=3 uid="uid://ddshxn7jla8lo"]
 
 [ext_resource type="Texture2D" uid="uid://pux2nnjdchwf" path="res://assets/tileset.png" id="1_6ojrb"]
 [ext_resource type="Script" path="res://scenes/main.gd" id="1_joo28"]
 [ext_resource type="FontFile" uid="uid://ho7w3ueb5kb6" path="res://assets/m5x7.ttf" id="2_pc42s"]
+[ext_resource type="AudioStream" uid="uid://7otpnu8r48g0" path="res://assets/obstacle_sound.mp3" id="4_yry4k"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4kste"]
 texture = ExtResource("1_6ojrb")
@@ -165,5 +166,9 @@ label_settings = SubResource("LabelSettings_385mf")
 [node name="camera" type="Camera2D" parent="."]
 position = Vector2(192, 108)
 zoom = Vector2(3, 3)
+
+[node name="obstacle_sound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_yry4k")
+volume_db = -5.0
 
 [connection signal="pressed" from="start" to="." method="_on_start_pressed"]

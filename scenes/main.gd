@@ -4,6 +4,7 @@ extends Node2D
 @onready var obstacle_sound = $obstacle_sound
 @onready var search_sound = $search_sound
 @onready var label = $label
+@onready var start = $start
 
 var grid = []
 var grid_width = 10
@@ -44,6 +45,7 @@ func initialize_finish_position():
 	grid[finish_position_x][-finish_position_y] = -2
 
 func _on_start_pressed():
+	start.set_disabled(true)
 	clear_grid()
 	create_obstacles()
 	grassfire_search_algo()
@@ -104,6 +106,9 @@ func grassfire_search_algo():
 
 		for direction in directions:
 			var new_node = current_node + direction
+			if (new_node.x == finish_position_x and new_node.y == finish_position_y):
+				grid[new_node.x][-new_node.y] = -4
+
 			if is_valid(new_node.x, new_node.y):
 				grid[new_node.x][-new_node.y] = next_current_value
 				grassfire_search.push_back(new_node)
@@ -114,7 +119,21 @@ func grassfire_search_algo():
 		search_sound.play()
 		label.text = "Nodes Processed: " + str(searched_nodes.size()) + "/" + str(totalNodes)
 	print(grid)
+	await get_tree().create_timer(1).timeout
 	
+	if (grid[finish_position_x][-finish_position_y] == -4):
+		show_path()
+	else:
+		label.text = "No Path Found!"
+	start.set_disabled(false)
+	
+
+var shortest_path = []
+
+func show_path():
+	for node in searched_nodes:
+		tilemap.set_cell(0, node, 0, empty_cube)
+	label.text = "Path Length: " + str(shortest_path.size())
 
 func add_to_set(element):
 	if element not in searched_nodes:

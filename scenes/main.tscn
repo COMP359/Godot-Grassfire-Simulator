@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://ddshxn7jla8lo"]
+[gd_scene load_steps=18 format=3 uid="uid://ddshxn7jla8lo"]
 
 [ext_resource type="Texture2D" uid="uid://pux2nnjdchwf" path="res://assets/tileset.png" id="1_6ojrb"]
 [ext_resource type="Script" path="res://scenes/main.gd" id="1_joo28"]
@@ -43,6 +43,14 @@ line_spacing = 0.0
 font = ExtResource("2_pc42s")
 shadow_size = 0
 
+[sub_resource type="LabelSettings" id="LabelSettings_pueqe"]
+font = ExtResource("2_pc42s")
+font_size = 33
+
+[sub_resource type="Theme" id="Theme_o42bo"]
+default_font = ExtResource("2_pc42s")
+default_font_size = 32
+
 [sub_resource type="Theme" id="Theme_2x8ml"]
 default_font = ExtResource("2_pc42s")
 default_font_size = 0
@@ -66,11 +74,6 @@ font_color = Color(0.54902, 0.87451, 0.423529, 1)
 
 [node name="main" type="Node2D"]
 script = ExtResource("1_joo28")
-start_position_x = 1
-start_position_y = -1
-finish_position_x = 8
-finish_position_y = -8
-percentage_obstacles = 16.0
 
 [node name="tilemap" type="TileMap" parent="."]
 y_sort_enabled = true
@@ -169,6 +172,110 @@ size_flags_horizontal = 4
 text = "Searched"
 label_settings = SubResource("LabelSettings_s0btu")
 
+[node name="cord_legend" type="GridContainer" parent="."]
+custom_minimum_size = Vector2(20, 100)
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 13.0
+offset_top = 3.0
+offset_right = 365.0
+offset_bottom = 103.0
+grow_horizontal = 0
+grow_vertical = 2
+scale = Vector2(0.3, 0.3)
+size_flags_horizontal = 4
+size_flags_vertical = 4
+columns = 4
+
+[node name="start_x" type="Label" parent="cord_legend"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Start X"
+label_settings = SubResource("LabelSettings_pueqe")
+
+[node name="start_x_value" type="SpinBox" parent="cord_legend"]
+layout_mode = 2
+theme = SubResource("Theme_o42bo")
+max_value = 9.0
+value = 1.0
+alignment = 1
+
+[node name="start_y" type="Label" parent="cord_legend"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Start Y
+"
+label_settings = SubResource("LabelSettings_pueqe")
+
+[node name="start_y_value" type="SpinBox" parent="cord_legend"]
+layout_mode = 2
+theme = SubResource("Theme_o42bo")
+min_value = -9.0
+max_value = 0.0
+value = -1.0
+alignment = 1
+
+[node name="finish_x" type="Label" parent="cord_legend"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Finish X"
+label_settings = SubResource("LabelSettings_pueqe")
+
+[node name="finish_x_value" type="SpinBox" parent="cord_legend"]
+layout_mode = 2
+theme = SubResource("Theme_o42bo")
+max_value = 9.0
+value = 8.0
+alignment = 1
+
+[node name="finish_y" type="Label" parent="cord_legend"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Finish Y"
+label_settings = SubResource("LabelSettings_pueqe")
+
+[node name="finish_y_value" type="SpinBox" parent="cord_legend"]
+layout_mode = 2
+theme = SubResource("Theme_o42bo")
+min_value = -9.0
+max_value = 0.0
+value = -8.0
+alignment = 1
+
+[node name="obstacle_legend" type="GridContainer" parent="."]
+custom_minimum_size = Vector2(20, 20)
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 2.0
+offset_top = 26.0
+offset_right = 354.0
+offset_bottom = 126.0
+grow_horizontal = 0
+grow_vertical = 2
+scale = Vector2(0.3, 0.3)
+size_flags_horizontal = 4
+size_flags_vertical = 4
+columns = 4
+
+[node name="obstacle" type="Label" parent="obstacle_legend"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Obstacles"
+label_settings = SubResource("LabelSettings_pueqe")
+
+[node name="obstacle_value" type="SpinBox" parent="obstacle_legend"]
+layout_mode = 2
+theme = SubResource("Theme_o42bo")
+max_value = 70.0
+value = 15.0
+alignment = 1
+
 [node name="start" type="Button" parent="."]
 offset_left = 343.0
 offset_top = 191.0
@@ -205,4 +312,9 @@ stream = ExtResource("4_yry4k")
 [node name="search_sound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("5_xa0j6")
 
+[connection signal="value_changed" from="cord_legend/start_x_value" to="." method="_on_start_x_value_value_changed"]
+[connection signal="value_changed" from="cord_legend/start_y_value" to="." method="_on_start_y_value_value_changed"]
+[connection signal="value_changed" from="cord_legend/finish_x_value" to="." method="_on_finish_x_value_value_changed"]
+[connection signal="value_changed" from="cord_legend/finish_y_value" to="." method="_on_finish_y_value_value_changed"]
+[connection signal="value_changed" from="obstacle_legend/obstacle_value" to="." method="_on_obstacle_value_value_changed"]
 [connection signal="pressed" from="start" to="." method="_on_start_pressed"]

@@ -62,7 +62,7 @@ func create_obstacles():
 			grid[randomX][-randomY] = -3
 			tilemap.set_cell(0, Vector2i(randomX, randomY), 0, obstacle_cube)
 			var timeout = max(0.05, 0.15 - (0.10 * obstaclesPlaced / numberOfObstacles))  # Decrease timeout as more obstacles are placed
-			await get_tree().create_timer(timeout).timeout
+			#await get_tree().create_timer(timeout).timeout
 			obstacle_sound.play()
 			obstaclesPlaced += 1
 			label.text = "Obstacles Placed: " + str(obstaclesPlaced) + "/" + str(numberOfObstacles)
@@ -87,7 +87,7 @@ func is_valid(x, y):
 
 func grassfire_search_algo():
 	var numberOfObstacles = int(percentage_obstacles + 0.5)
-	await get_tree().create_timer((numberOfObstacles / 2.0 * (0.15 + 0.05)) + 1).timeout # wait for obstacles to be created
+	#await get_tree().create_timer((numberOfObstacles / 2.0 * (0.15 + 0.05)) + 1).timeout # wait for obstacles to be created
 	grassfire_search.append(Vector2i(start_position_x, start_position_y))
 
 	searched_nodes = []
@@ -107,6 +107,7 @@ func grassfire_search_algo():
 		for direction in directions:
 			var new_node = current_node + direction
 			if (new_node.x == finish_position_x and new_node.y == finish_position_y):
+				# Found the finish
 				grid[new_node.x][-new_node.y] = -4
 
 			if is_valid(new_node.x, new_node.y):
@@ -115,11 +116,14 @@ func grassfire_search_algo():
 				tilemap.set_cell(0, new_node, 0, search_cube)
 				add_to_set(new_node)
 
-		await get_tree().create_timer(0.04).timeout
+		#await get_tree().create_timer(0.04).timeout
 		search_sound.play()
 		label.text = "Nodes Processed: " + str(searched_nodes.size()) + "/" + str(totalNodes)
-	print(grid)
-	await get_tree().create_timer(1).timeout
+	
+	for i in grid_width:
+		print(grid[i])
+	
+	#await get_tree().create_timer(1).timeout
 	
 	if (grid[finish_position_x][-finish_position_y] == -4):
 		show_path()
@@ -130,10 +134,44 @@ func grassfire_search_algo():
 
 var shortest_path = []
 
+func is_valid_path(x, y):
+	return 0 <= x and x <= 9 and -9 <= y and y <= 0 and grid[x][-y] > 0
+
 func show_path():
+	# Clears the tilemap of searched nodes
 	for node in searched_nodes:
 		tilemap.set_cell(0, node, 0, empty_cube)
 	label.text = "Path Length: " + str(shortest_path.size())
+
+	var final_path = []
+
+	# Find the shortest path using the grid
+
+	var finished_node = Vector2i(finish_position_x, finish_position_y)
+	var directions = [Vector2i(1, 0), Vector2i(0, -1), Vector2i(0, 1), Vector2i(-1, 0)]
+
+	var finished = true
+	while(finished):
+		var min_value = 999999
+		var min_x = 0
+		var min_y = 0
+		for direction in directions:
+			var new_node = finished_node + direction
+			#New node is something like (0,3)
+			if is_valid_path(new_node.x, new_node.y):
+				if grid[new_node.x][-new_node.y] < min_value:
+					min_value = grid[new_node.x][-new_node.y]
+					min_x = new_node.x
+					min_y = new_node.y
+					#Start found
+			if (new_node.x == start_position_x and new_node.y == start_position_y):
+				finished = false
+				break
+		if (finished == true):
+			final_path.append(Vector2i(min_x, min_y))
+			finished_node = final_path[-1]
+	for i in final_path:
+		tilemap.set_cell(0, i, 0, path_cube)
 
 func add_to_set(element):
 	if element not in searched_nodes:

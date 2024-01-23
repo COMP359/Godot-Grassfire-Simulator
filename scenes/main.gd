@@ -117,7 +117,9 @@ func grassfire_search_algo():
 			var new_node = current_node + direction
 			if (new_node.x == finish_position_x and new_node.y == finish_position_y):
 				# Found the finish
+				# Found the finish
 				grid[new_node.x][-new_node.y] = -4
+				finished_label.visible = true
 				finished_label.visible = true
 
 			if is_valid(new_node.x, new_node.y):
@@ -131,7 +133,10 @@ func grassfire_search_algo():
 		label.text = "Nodes Processed: " + str(searched_nodes.size()) + "/" + str(totalNodes)
 	
 	
+	
+	
 	await get_tree().create_timer(1).timeout
+	finished_label.visible = false
 	finished_label.visible = false
 	
 	if (grid[finish_position_x][-finish_position_y] == -4):
@@ -145,6 +150,7 @@ func is_valid_path(x, y):
 	return 0 <= x and x <= 9 and -9 <= y and y <= 0 and grid[x][-y] > 0
 
 func show_path():
+	# Clears the tilemap of searched nodes
 	# Clears the tilemap of searched nodes
 	for node in searched_nodes:
 		tilemap.set_cell(0, node, 0, empty_cube)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://ddshxn7jla8lo"]
+[gd_scene load_steps=16 format=3 uid="uid://ddshxn7jla8lo"]
 
 [ext_resource type="Texture2D" uid="uid://pux2nnjdchwf" path="res://assets/tileset.png" id="1_6ojrb"]
 [ext_resource type="Script" path="res://scenes/main.gd" id="1_joo28"]
@@ -60,13 +60,17 @@ corner_detail = 9
 [sub_resource type="LabelSettings" id="LabelSettings_385mf"]
 font = ExtResource("2_pc42s")
 
+[sub_resource type="LabelSettings" id="LabelSettings_38w3s"]
+font = ExtResource("2_pc42s")
+font_color = Color(0.54902, 0.87451, 0.423529, 1)
+
 [node name="main" type="Node2D"]
 script = ExtResource("1_joo28")
-start_position_x = 6
-start_position_y = -5
-finish_position_x = 6
-finish_position_y = -7
-percentage_obstacles = 25.0
+start_position_x = 1
+start_position_y = -1
+finish_position_x = 8
+finish_position_y = -8
+percentage_obstacles = 16.0
 
 [node name="tilemap" type="TileMap" parent="."]
 y_sort_enabled = true
@@ -181,6 +185,15 @@ offset_top = 200.0
 offset_right = 140.0
 offset_bottom = 223.0
 label_settings = SubResource("LabelSettings_385mf")
+
+[node name="finished_label" type="Label" parent="."]
+visible = false
+offset_left = 5.0
+offset_top = 185.0
+offset_right = 140.0
+offset_bottom = 208.0
+text = "Finish Found!"
+label_settings = SubResource("LabelSettings_38w3s")
 
 [node name="camera" type="Camera2D" parent="."]
 position = Vector2(192, 108)

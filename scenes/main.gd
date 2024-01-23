@@ -4,6 +4,7 @@ extends Node2D
 @onready var obstacle_sound = $obstacle_sound
 @onready var search_sound = $search_sound
 @onready var label = $label
+@onready var finished_label = $finished_label
 @onready var start = $start
 
 var grid = []
@@ -46,6 +47,7 @@ func initialize_finish_position():
 
 func _on_start_pressed():
 	start.set_disabled(true)
+	search_sound.pitch_scale = 1
 	clear_grid()
 	create_obstacles()
 	grassfire_search_algo()
@@ -62,11 +64,10 @@ func create_obstacles():
 			grid[randomX][-randomY] = -3
 			tilemap.set_cell(0, Vector2i(randomX, randomY), 0, obstacle_cube)
 			var timeout = max(0.05, 0.15 - (0.10 * obstaclesPlaced / numberOfObstacles))  # Decrease timeout as more obstacles are placed
-			#await get_tree().create_timer(timeout).timeout
+			await get_tree().create_timer(timeout).timeout
 			obstacle_sound.play()
 			obstaclesPlaced += 1
 			label.text = "Obstacles Placed: " + str(obstaclesPlaced) + "/" + str(numberOfObstacles)
-	
 
 func clear_grid():
 	for i in grid_width:
@@ -87,7 +88,7 @@ func is_valid(x, y):
 
 func grassfire_search_algo():
 	var numberOfObstacles = int(percentage_obstacles + 0.5)
-	#await get_tree().create_timer((numberOfObstacles / 2.0 * (0.15 + 0.05)) + 1).timeout # wait for obstacles to be created
+	await get_tree().create_timer((numberOfObstacles / 2.0 * (0.15 + 0.05)) + 1).timeout # wait for obstacles to be created
 	grassfire_search.append(Vector2i(start_position_x, start_position_y))
 
 	searched_nodes = []
@@ -109,6 +110,7 @@ func grassfire_search_algo():
 			if (new_node.x == finish_position_x and new_node.y == finish_position_y):
 				# Found the finish
 				grid[new_node.x][-new_node.y] = -4
+				finished_label.visible = true
 
 			if is_valid(new_node.x, new_node.y):
 				grid[new_node.x][-new_node.y] = next_current_value
@@ -116,21 +118,18 @@ func grassfire_search_algo():
 				tilemap.set_cell(0, new_node, 0, search_cube)
 				add_to_set(new_node)
 
-		#await get_tree().create_timer(0.04).timeout
+		await get_tree().create_timer(0.04).timeout
 		search_sound.play()
 		label.text = "Nodes Processed: " + str(searched_nodes.size()) + "/" + str(totalNodes)
 	
-	for i in grid_width:
-		print(grid[i])
 	
-	#await get_tree().create_timer(1).timeout
+	await get_tree().create_timer(1).timeout
+	finished_label.visible = false
 	
 	if (grid[finish_position_x][-finish_position_y] == -4):
 		show_path()
 	else:
 		label.text = "No Path Found!"
-	start.set_disabled(false)
-	
 
 var shortest_path = []
 
@@ -142,6 +141,7 @@ func show_path():
 	for node in searched_nodes:
 		tilemap.set_cell(0, node, 0, empty_cube)
 	label.text = "Path Length: " + str(shortest_path.size())
+	search_sound.pitch_scale = 1.5
 
 	var final_path = []
 
@@ -170,8 +170,24 @@ func show_path():
 		if (finished == true):
 			final_path.append(Vector2i(min_x, min_y))
 			finished_node = final_path[-1]
-	for i in final_path:
-		tilemap.set_cell(0, i, 0, path_cube)
+
+	var path_length = 1
+	for i in range(final_path.size() - 1, -1, -1):
+		await get_tree().create_timer(0.25).timeout
+		search_sound.play()
+		tilemap.set_cell(0, final_path[i], 0, path_cube)
+		label.text = "Path Length: " + str(path_length)
+		path_length += 1
+	await get_tree().create_timer(0.5).timeout
+	search_sound.pitch_scale = 2
+	search_sound.play()
+	await get_tree().create_timer(0.15).timeout
+	search_sound.pitch_scale = 2.5
+	search_sound.play()
+	await get_tree().create_timer(0.15).timeout
+	search_sound.pitch_scale = 4
+	search_sound.play()
+	start.set_disabled(false)
 
 func add_to_set(element):
 	if element not in searched_nodes:

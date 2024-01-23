@@ -6,6 +6,11 @@ extends Node2D
 @onready var label = $label
 @onready var finished_label = $finished_label
 @onready var start = $start
+@onready var start_x_value = $cord_legend/start_x_value
+@onready var start_y_value = $cord_legend/start_y_value
+@onready var finish_x_value = $cord_legend/finish_x_value
+@onready var finish_y_value = $cord_legend/finish_y_value
+@onready var obstacle_value = $obstacle_legend/obstacle_value
 
 var grid = []
 var grid_width = 10
@@ -13,11 +18,11 @@ var grid_height = 10
 var grassfire_search = []
 var searched_nodes = []
 
-@export_range(0, 9) var start_position_x = 0
-@export_range(-9, 0) var start_position_y = 0
-@export_range(0, 9) var finish_position_x = 9
-@export_range(-9, 0) var finish_position_y = -9
-@export_range(0, 25, 0.5) var percentage_obstacles: float = 10
+@export_range(0, 9) var start_position_x = 1
+@export_range(-9, 0) var start_position_y = -1
+@export_range(0, 9) var finish_position_x = 8
+@export_range(-9, 0) var finish_position_y = -8
+@export_range(0, 70) var percentage_obstacles = 15
 
 var empty_cube = Vector2i(0,0)
 var obstacle_cube = Vector2i(1,0)
@@ -46,14 +51,17 @@ func initialize_finish_position():
 	grid[finish_position_x][-finish_position_y] = -2
 
 func _on_start_pressed():
-	start.set_disabled(true)
-	search_sound.pitch_scale = 1
-	clear_grid()
-	create_obstacles()
-	grassfire_search_algo()
+	if (start_position_x == finish_position_x and start_position_y == finish_position_y):
+		label.text = "Change Start or Finish"
+	else:
+		set_ui(true)
+		search_sound.pitch_scale = 1
+		clear_grid()
+		create_obstacles()
+		grassfire_search_algo()
 
 func create_obstacles():
-	var numberOfObstacles = int(percentage_obstacles + 0.5)
+	var numberOfObstacles = percentage_obstacles
 	var obstaclesPlaced = 0
 
 	while obstaclesPlaced < numberOfObstacles:
@@ -87,7 +95,7 @@ func is_valid(x, y):
 	return 0 <= x and x <= 9 and -9 <= y and y <= 0 and grid[x][-y] == 0
 
 func grassfire_search_algo():
-	var numberOfObstacles = int(percentage_obstacles + 0.5)
+	var numberOfObstacles = percentage_obstacles
 	await get_tree().create_timer((numberOfObstacles / 2.0 * (0.15 + 0.05)) + 1).timeout # wait for obstacles to be created
 	grassfire_search.append(Vector2i(start_position_x, start_position_y))
 
@@ -187,8 +195,47 @@ func show_path():
 	await get_tree().create_timer(0.15).timeout
 	search_sound.pitch_scale = 4
 	search_sound.play()
-	start.set_disabled(false)
+	set_ui(false)
 
 func add_to_set(element):
 	if element not in searched_nodes:
 		searched_nodes.append(element)
+
+func _on_start_x_value_value_changed(value):
+	clear_grid()
+	label.text = ""
+	tilemap.set_cell(0, Vector2i(start_position_x, start_position_y), 0, empty_cube)
+	start_position_x = int(value)
+	tilemap.set_cell(0, Vector2i(start_position_x, start_position_y), 0, start_cube)
+
+func _on_start_y_value_value_changed(value):
+	clear_grid()
+	label.text = ""
+	tilemap.set_cell(0, Vector2i(start_position_x, start_position_y), 0, empty_cube)
+	start_position_y = int(value)
+	tilemap.set_cell(0, Vector2i(start_position_x, start_position_y), 0, start_cube)
+
+func _on_finish_x_value_value_changed(value):
+	clear_grid()
+	label.text = ""
+	tilemap.set_cell(0, Vector2i(finish_position_x, finish_position_y), 0, empty_cube)
+	finish_position_x = int(value)
+	tilemap.set_cell(0, Vector2i(finish_position_x, finish_position_y), 0, finish_cube)
+
+func _on_finish_y_value_value_changed(value):
+	clear_grid()
+	label.text = ""
+	tilemap.set_cell(0, Vector2i(finish_position_x, finish_position_y), 0, empty_cube)
+	finish_position_y = int(value)
+	tilemap.set_cell(0, Vector2i(finish_position_x, finish_position_y), 0, finish_cube)
+
+func _on_obstacle_value_value_changed(value):
+	percentage_obstacles = int(value)
+
+func set_ui(value):
+	start.set_disabled(value)
+	start_x_value.set_editable(!value)
+	start_y_value.set_editable(!value)
+	finish_x_value.set_editable(!value)
+	finish_y_value.set_editable(!value)
+	obstacle_value.set_editable(!value)

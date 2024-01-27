@@ -15,3 +15,10 @@ https://github.com/COMP359/Godot-Grassfire-Simulator/assets/60556017/22d5b911-bf
 1. Clone this repository.
 2. Open the project in Godot Engine.
 3. Run the project.
+
+# References
+
+- [Grassfire Transform](https://en.wikipedia.org/wiki/Grassfire_transform)
+- [M5x7 Font](https://managore.itch.io/m5x7)
+
+All graphics and sound effects are made from scratch by the group.

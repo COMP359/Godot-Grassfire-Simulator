@@ -1,10 +1,10 @@
 [gd_scene load_steps=18 format=3 uid="uid://ddshxn7jla8lo"]
 
-[ext_resource type="Texture2D" uid="uid://pux2nnjdchwf" path="res://assets/tileset.png" id="1_6ojrb"]
+[ext_resource type="Texture2D" uid="uid://bxbkoia0366st" path="res://assets/tileset.png" id="1_6ojrb"]
 [ext_resource type="Script" path="res://scenes/main.gd" id="1_joo28"]
-[ext_resource type="FontFile" uid="uid://ho7w3ueb5kb6" path="res://assets/m5x7.ttf" id="2_pc42s"]
-[ext_resource type="AudioStream" uid="uid://7otpnu8r48g0" path="res://assets/obstacle_sound.mp3" id="4_yry4k"]
-[ext_resource type="AudioStream" uid="uid://vxdd0fqxqxap" path="res://assets/search_sound.mp3" id="5_xa0j6"]
+[ext_resource type="FontFile" uid="uid://c8kr00pyhold4" path="res://assets/m5x7.ttf" id="2_pc42s"]
+[ext_resource type="AudioStream" uid="uid://dka88dlvy1sei" path="res://assets/obstacle_sound.mp3" id="4_yry4k"]
+[ext_resource type="AudioStream" uid="uid://cd7j0deqjgv5x" path="res://assets/search_sound.mp3" id="5_xa0j6"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4kste"]
 texture = ExtResource("1_6ojrb")
